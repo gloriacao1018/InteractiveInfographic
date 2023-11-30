@@ -15,11 +15,17 @@ function ready() {
     
     // given F (Frame), S (Stage), W (width), H (height)
     // put code here
-    
-    new Circle(100, blue)
-        .center()
-        .drag();
+    const slider = new Slider({step:3})
+    .addTo()
+    .pos(BOTTOM,CENTER,0,0)
+    const tile = new Tile({
+        obj:new Rectangle(), 
+        cols:4,
+        rows:4, 
         
+    })
+    .center();
+    
 } // end ready
 
 </script>
