@@ -26,9 +26,9 @@ function ready() {
     const page3 = new Pic("assets/page3.jpeg").addTo(container);
 
     const slider = new Slider({
-    min: 0, 
+    min: 50, 
     max: 100, 
-    step: 1, 
+    step: 3, 
     vertical: false
     })
     .addTo()
@@ -36,8 +36,8 @@ function ready() {
     .center()
     .change(() => {
       page1.scale = slider.currentValue / 100;
-    page2.scale = slider.currentValue / 100;
-    page3.scale = slider.currentValue / 100; 
+      page2.scale = slider.currentValue / 100;
+      page3.scale = slider.currentValue / 100; 
     });
 
     
