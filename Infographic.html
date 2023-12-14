@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Beyond Circular Fashion</title>
+
+<!-- zimjs.com - JavaScript Canvas Framework -->
+<script type=module>
+
+import zim from "https://zimjs.org/cdn/015/zim";
+
+const assets = ["paper.jpeg","page1.jpeg", "page2.jpeg", "spritesheet1.png","page3.jpeg", "AddToCart.png", "background.png","basket.png","cloth.png","clothes.png","dress.png","ocean.png","overall.png","phone.png","sewing.png","Shirt.png","shoes.png","truck.png","Tshirt.png","watch.png","waterbottle.png"]
+const path = "assets/";
+new Frame(FIT, 4905, 3470, light, dark, ready, assets, path, new ProgressBar({foreground:"coral", background:"salmon", scale:5}));
+function ready() {
+  const background = new Pic("paper.jpeg").center();
+  const spool = new Sprite(new Pic("spritesheet1.png"),3, 5, 13)
+    .loc(232, -57)
+    .rot(10)
+    .sca(2)
+
+  const container = new Container(W, H).addTo();
+  const infographic = new Pic("background.png").addTo(container).center().sca(1.5);
+  
+  const waterbottle = new Pic ("waterbottle.png").loc(3772, 61).sca(6).addTo(container).cur();
+  const cloth = new Pic ("cloth.png").loc(3772, 81).sca(6).addTo(container).alp(0);
+  
+  waterbottle.on("click", () => {
+    zog("waterbottle clicked");
+
+    waterbottle.animate({
+      props:{alpha:0},
+      time:1,
+      call:function(){
+        waterbottle.removeFrom();
+      }
+    });
+
+    cloth.animate({
+      props:{alpha:1},
+      time:1
+    });
+  });
+
+  const phone = new Pic ("phone.png").loc(6584, 200).sca(4).addTo(container);
+  const sewing = new Pic ("sewing.png").loc(6584, 2200).sca(4).addTo(container);
+  const clothes = new Pic ("clothes.png").loc(6484, 4100).sca(5).addTo(container);
+  
+  const watch = new Pic ("watch.png").loc(3684, 4200).sca(6).addTo(container);
+  const overall = new Pic ("overall.png").loc(3884, 4100).sca(6).addTo(container);
+  const dress = new Pic ("dress.png").loc(4084, 4100).sca(6).addTo(container);
+  const shoes = new Pic ("shoes.png").loc(3584, 4600).sca(6).addTo(container);
+  const basket = new Pic ("basket.png").loc(3384, 4200).sca(6).addTo(container);
+  const AddToCart = new Pic ("AddToCart.png").loc(3684, 5100).sca(6).addTo(container);
+  
+  const truck = new Pic ("truck.png").loc(1775, 2427).sca(6).addTo(container);
+
+  const ocean = new Pic ("ocean.png").loc(3003, 1688).sca(6).addTo(container).alp(0);
+
+
+  const proportion = new Proportion(50,100,0,12)
+  const slider = new Slider({
+  min: 50, 
+  max: 100, 
+  step: 1, 
+  barLength: 500,
+  barAlpha: 0.5,
+  button: new Button({
+      width:65,
+      height:61,
+      backing:new Pic("Shirt.png").reg(CENTER),
+      label:""
+    })
+  })
+  .addTo()
+  .sca(8)
+  .rot(40)
+  .alp(1)
+  .loc(1111, 776)
+  .change(() => {
+    container.scale = 1.5 - (slider.currentValue / 100) * 0.88; 
+    spool.gotoAndStop(Math.round(proportion.convert(slider.currentValue)));
+    if (slider.currentValue === slider.max) {
+      ocean.animate({
+        props:{alpha:1},
+        time:1
+      })
+    } else {
+      ocean.alp(0); 
+    }
+  });
+
+  slider.button.backing.outline()
+
+  let likes = new Pic("Shirt.png");
+
+  let likeButton = new Button({
+    label: "",
+    backing: new Pic("likeButton.png")
+  })
+    .reg(CENTER)
+    .cur()
+    .loc(7184, 780)
+    .sca(.04)
+    .ord(1)
+    .addTo(phone)
+    .animate({
+      props:{alpha:{min:0, max:1}},
+      time: .7,
+      loop:true,
+      ease:"bounce"
+    });
+
+  let emitter = new Emitter({
+    obj: [likes, new Pic(), new Pic()],
+    interval: 2,
+    startPaused: true
+  }).centerReg(likeButton).ord(2);
+
+  likeButton.on("click", () => {
+    emitter.spurt(100); 
+  });
+
+
+
+} // end ready
+
+</script>
+<meta name="viewport" content="width=device-width, user-scalable=no" />
+</head>
+<body></body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Beyond Circular Fashion</title>
+<script type=module>
+import zim from "https://zimjs.org/cdn/015/zim";
+
+const assets = ["paper.jpeg","page1.jpeg", "page2.jpeg", "page3.jpeg"]
+const path = "assets/";
+
+new Frame(FIT, 1024, 768, light, dark, ready, assets, path);
+function ready() {
+  
+
+    const page1 = new Page();
+    asset("page1.jpeg").scaleTo(page1,75).pos(0,50,CENTER,BOTTOM, page1);
+
+    const page2 = new Page();
+    asset("page2.jpeg").scaleTo(page2,75).pos(0,50,CENTER,BOTTOM, page2);
+
+    const page3 = new Page();
+    asset("page3.jpeg").scaleTo(page3,75).pos(0,50,CENTER,BOTTOM, page3);
+
+    const pages = [page1, page2, page3];
+    const book = new Book(W,H, pages, 1).addTo();
+
+    let closeBook;
+
+    const page1 = new Page({color: "#EFE2CF"});
+    page1.content = new Pic("0.png").addTo(page1).pos(-10,0,CENTER,LEFT,page1);
+
+    const page2 = new Page({color: "#EFE2CF"});
+    page2.content = new Pic("1.png").addTo(page2).pos(340,0,CENTER,RIGHT, page1);
+
+    const page3 = new Page({color: "#EFE2CF"});
+    page3.content = new Pic("2.png").addTo(page3).pos(-10,0,CENTER,LEFT,page3);
+
+    const page4 = new Page({color: "#EFE2CF"});
+    page4.content = new Pic("3.png").addTo(page4).pos(340,0,CENTER,RIGHT, page3);
+
+    const page5 = new Page({color: "#EFE2CF"});
+    page5.content = new Pic("4.png").addTo(page5).pos(-10,0,CENTER,LEFT,page5);
+
+    const page6 = new Page({color: "#EFE2CF"});
+    page6.content = new Pic("5.png").addTo(page6).pos(340,0,CENTER,RIGHT, page5);
+
+    const pages = [page1, page2, page3, page4, page5];
+
+    const book = new Book(700, 500, pages)
+
+    const bookCont = new Container(70,70).pos(150,50,RIGHT, TOP);
+    const catbible = new Pic("catbible.png").addTo(bookCont).scaleTo(bookCont).hov(1)   
+        .tap(()=>{
+            flip.play();
+            book.center().addTo(S);
+            closeBook = new Button(40,38,"x",red).pos(170,145, RIGHT, TOP);
+            closeBook.tap(()=>{
+                if (S.contains(book)) {
+                    close.play()
+                    book.removeFrom(S);
+                    closeBook.removeFrom()
+                }
+            });
+        });
+
+
+        
+} // end ready
+
+</script>
+<meta name="viewport" content="width=device-width, user-scalable=no" />
+</head>
+<body></body>
+</html>
