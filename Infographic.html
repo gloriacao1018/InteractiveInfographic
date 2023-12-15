@@ -9,62 +9,50 @@
 
 import zim from "https://zimjs.org/cdn/015/zim";
 
-const assets = ["paper.jpeg","page1.jpeg", "page2.jpeg", "spritesheet1.png","page3.jpeg", "AddToCart.png", "background.png","basket.png","cloth.png","clothes.png","dress.png","ocean.png","overall.png","phone.png","sewing.png","Shirt.png","shoes.png","truck.png","Tshirt.png","watch.png","waterbottle.png"]
+const assets = ["shopping.png","likeButton.png","cart.png","label1.png", "label2.png", "label3.png", "sewing.mp3","soundon.png","paper.jpeg","page1.jpeg", "page2.jpeg", "spritesheet1.png","page3.jpeg", "AddToCart.png", "background.png","basket.png","cloth.png","clothes.png","dress.png","ocean.png","overall.png","phone.png","sewing.png","Shirt.png","shoes.png","truck.png","Tshirt.png","watch.png","waterbottle.png"]
 const path = "assets/";
 new Frame(FIT, 4905, 3470, light, dark, ready, assets, path, new ProgressBar({foreground:"coral", background:"salmon", scale:5}));
 function ready() {
+
+//Background elements------------------------
   const background = new Pic("paper.jpeg").center();
+  const container = new Container(W, H).addTo();
+  const infographic = new Pic("background.png").addTo(container).center().sca(1.5);
+
   const spool = new Sprite(new Pic("spritesheet1.png"),3, 5, 13)
     .loc(232, -57)
     .rot(10)
-    .sca(2)
+    .sca(1.8)
+    .addTo(container)
 
-  const container = new Container(W, H).addTo();
-  const infographic = new Pic("background.png").addTo(container).center().sca(1.5);
-  
   const waterbottle = new Pic ("waterbottle.png").loc(3772, 61).sca(6).addTo(container).cur();
   const cloth = new Pic ("cloth.png").loc(3772, 81).sca(6).addTo(container).alp(0);
+
+  const phone = new Pic ("phone.png").loc(6584, 160).sca(5).addTo(container);
   
-  waterbottle.on("click", () => {
-    zog("waterbottle clicked");
-
-    waterbottle.animate({
-      props:{alpha:0},
-      time:1,
-      call:function(){
-        waterbottle.removeFrom();
-      }
-    });
-
-    cloth.animate({
-      props:{alpha:1},
-      time:1
-    });
-  });
-
-  const phone = new Pic ("phone.png").loc(6584, 200).sca(4).addTo(container);
+  const label1 = new Pic ("label1.png").loc(5404, 3065).sca(1).addTo(container).drag();
+  const label2 = new Pic ("label2.png").loc(5404, 3065).sca(1).addTo(container).drag();
+  const label3 = new Pic ("label3.png").loc(5404, 3065).sca(1).addTo(container).drag();
   const sewing = new Pic ("sewing.png").loc(6584, 2200).sca(4).addTo(container);
-  const clothes = new Pic ("clothes.png").loc(6484, 4100).sca(5).addTo(container);
+
+  const cart = new Pic ("cart.png").loc(6484, 4100).sca(5).addTo(container);
+  const clothes = new Pic ("clothes.png").loc(6484, 4100).sca(5).alp(0).addTo(container);
   
-  const watch = new Pic ("watch.png").loc(3684, 4200).sca(6).addTo(container);
-  const overall = new Pic ("overall.png").loc(3884, 4100).sca(6).addTo(container);
-  const dress = new Pic ("dress.png").loc(4084, 4100).sca(6).addTo(container);
-  const shoes = new Pic ("shoes.png").loc(3584, 4600).sca(6).addTo(container);
   const basket = new Pic ("basket.png").loc(3384, 4200).sca(6).addTo(container);
-  const AddToCart = new Pic ("AddToCart.png").loc(3684, 5100).sca(6).addTo(container);
+  const AddToCart = new Pic ("AddToCart.png").loc(3684, 5100).sca(6).addTo(container).cur();
   
   const truck = new Pic ("truck.png").loc(1775, 2427).sca(6).addTo(container);
 
   const ocean = new Pic ("ocean.png").loc(3003, 1688).sca(6).addTo(container).alp(0);
 
-
+//Spool pulling------------------------------
   const proportion = new Proportion(50,100,0,12)
+
   const slider = new Slider({
   min: 50, 
   max: 100, 
   step: 1, 
   barLength: 500,
-  barAlpha: 0.5,
   button: new Button({
       width:65,
       height:61,
@@ -90,37 +78,145 @@ function ready() {
     }
   });
 
+  slider.bar.alpha = 0.1;
   slider.button.backing.outline()
 
-  let likes = new Pic("Shirt.png");
 
+//Step1 interaction-------------------------------------
+  waterbottle.on("click", () => {
+    zog("waterbottle clicked");
+
+    waterbottle.animate({
+      props:{alpha:0},
+      time:1,
+      call:function(){
+        waterbottle.removeFrom();
+      }
+    });
+
+    cloth.animate({
+      props:{alpha:1},
+      time:1
+    });
+  });
+
+//Step2 interaction-------------------------------------
   let likeButton = new Button({
     label: "",
     backing: new Pic("likeButton.png")
   })
-    .reg(CENTER)
-    .cur()
-    .loc(7184, 780)
-    .sca(.04)
+    .loc(7050, 824)
+    .sca(1)
     .ord(1)
-    .addTo(phone)
     .animate({
-      props:{alpha:{min:0, max:1}},
+      props:{alpha:{min:.1, max:1}, scale:{min:.9, max:1.2}},
       time: .7,
       loop:true,
       ease:"bounce"
-    });
+    })
+    .reg(CENTER)
+    .cur()
+    .addTo(container);
 
   let emitter = new Emitter({
-    obj: [likes, new Pic(), new Pic()],
-    interval: 2,
+    obj: new Pic("Shirt.png",{min:10, max:40},2),
+    // interval: 20,
+    // gravity: 0,
+    // force:2,
     startPaused: true
-  }).centerReg(likeButton).ord(2);
+  })
+    .addTo(container)
+    .loc(likeButton)
+    .ord(2);
 
   likeButton.on("click", () => {
-    emitter.spurt(100); 
+    zog("like clicked");
+    emitter.spurt(10); 
   });
 
+
+//Step3 interaction-------------------------------------
+  const blank1 = new Rectangle(200, 100).addTo(container).outline().loc(5104, 1865);
+  const blank2 = new Rectangle(200, 100).addTo(container).outline().loc(5404, 1665);
+  const blank3 = new Rectangle(200, 100).addTo(container).outline().loc(5404, 1765);
+
+  const sewingSound = new Aud("sewing.mp3")
+
+  const soundOn = new Pic("soundon.png")
+    .loc(7554, 1965)
+    .sca(.2)
+    .addTo(container)
+    .cur()
+    .alp(0)
+    
+    const labels = [label1, label2, label3];
+    const blanks = [blank1, blank2, blank3];
+
+    let hitCount = 0;
+
+    labels.forEach((label, index) => {
+      label.on("pressup", () => {
+        if (label.hitTestRect(blanks[index])) {
+          hitCount++;
+          if (hitCount === 3) {
+            soundOn.animate({
+              props:{alpha:1},
+              time:1,
+              ease:"fade"
+            });
+            sewingSound.play({loop:true, volume:.1}); 
+          }
+        }
+      });
+    });
+  
+//Step4 interaction-------------------------------------
+  const numberLabel = new Label("").sca(3).loc(6484, 4100).addTo(container);
+  
+  const dataSlider = new Slider({
+    min: 0, 
+    max: 100, 
+    step: 1,
+    barColor: "green",
+    barWidth: 10,
+    button: new Button({
+      width:65,
+      height:61,
+      backing:new Pic("Shirt.png").reg(CENTER),
+      label:""
+    })
+  })
+  .addTo(container)
+  .ord(4)
+  .sca(5)
+  .loc(6084, 4200)
+  .change(() => {
+    const currentValue = dataSlider.currentValue;
+    numberLabel.text = dataSlider.currentValue
+  
+    zog (dataSlider.currentValue)
+    if (currentValue === 60) {
+      clothes.alp(1); 
+      cart.alp(0);
+    } else {
+      clothes.alp(0); 
+      cart.alp(1);
+    }
+  });
+  
+
+//Step5 interaction--------------------------------------------
+  const watch = new Pic ("watch.png").loc(3684, 4200).sca(6).addTo(container).drag();
+  const overall = new Pic ("overall.png").loc(3884, 4100).sca(6).addTo(container).drag();
+  const dress = new Pic ("dress.png").loc(4084, 4100).sca(6).addTo(container).drag();
+  const shoes = new Pic ("shoes.png").loc(3584, 4600).sca(6).addTo(container).drag();
+
+  const shopping = new Pic ("shopping.png").loc(1084, 4600).sca(6).addTo(container);
+
+
+//Step6 interaction--------------------------------------------
+
+const landfill = new Rectangle(700, 700).addTo(container).loc(2317, 2427).outline();
 
 
 } // end ready
