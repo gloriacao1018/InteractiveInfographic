@@ -9,7 +9,7 @@
 
 import zim from "https://zimjs.org/cdn/015/zim";
 
-const assets = ["shopping.png","likeButton.png","cart.png","label1.png", "label2.png", "label3.png", "sewing.mp3","soundon.png","paper.jpeg","page1.jpeg", "page2.jpeg", "spritesheet1.png","page3.jpeg", "AddToCart.png", "background.png","basket.png","cloth.png","clothes.png","dress.png","ocean.png","overall.png","phone.png","sewing.png","Shirt.png","shoes.png","truck.png","Tshirt.png","watch.png","waterbottle.png"]
+const assets = ["fire.png","rack.png","likeButton.png","cart.png","label1.png", "label2.png", "label3.png", "sewing.mp3","soundon.png","paper.jpeg","page1.jpeg", "page2.jpeg", "spritesheet1.png","page3.jpeg", "AddToCart.png", "background.png","basket.png","cloth.png","clothes.png","dress.png","ocean.png","overall.png","phone.png","sewing.png","Shirt.png","shoes.png","truck.png","Tshirt.png","watch.png","waterbottle.png"]
 const path = "assets/";
 new Frame(FIT, 4905, 3470, light, dark, ready, assets, path, new ProgressBar({foreground:"coral", background:"salmon", scale:5}));
 function ready() {
@@ -17,7 +17,7 @@ function ready() {
 //Background elements------------------------
   const background = new Pic("paper.jpeg").center();
   const container = new Container(W, H).addTo();
-  const infographic = new Pic("background.png").addTo(container).center().sca(1.5);
+  const infographic = new Pic("background.png").addTo(container).center().sca(1.5).alp(0);
 
   const spool = new Sprite(new Pic("spritesheet1.png"),3, 5, 13)
     .loc(232, -57)
@@ -39,7 +39,6 @@ function ready() {
   const clothes = new Pic ("clothes.png").loc(6484, 4100).sca(5).alp(0).addTo(container);
   
   const basket = new Pic ("basket.png").loc(3384, 4200).sca(6).addTo(container);
-  const AddToCart = new Pic ("AddToCart.png").loc(3684, 5100).sca(6).addTo(container).cur();
   
   const truck = new Pic ("truck.png").loc(1775, 2427).sca(6).addTo(container);
 
@@ -96,7 +95,9 @@ function ready() {
 
     cloth.animate({
       props:{alpha:1},
-      time:1
+      time:1,
+      ease:"fade"
+
     });
   });
 
@@ -105,8 +106,8 @@ function ready() {
     label: "",
     backing: new Pic("likeButton.png")
   })
-    .loc(7050, 824)
-    .sca(1)
+    .loc(7150, 824)
+    .sca(.5)
     .ord(1)
     .animate({
       props:{alpha:{min:.1, max:1}, scale:{min:.9, max:1.2}},
@@ -119,10 +120,7 @@ function ready() {
     .addTo(container);
 
   let emitter = new Emitter({
-    obj: new Pic("Shirt.png",{min:10, max:40},2),
-    // interval: 20,
-    // gravity: 0,
-    // force:2,
+    obj: new Pic("Shirt.png",{min:100, max:400}),
     startPaused: true
   })
     .addTo(container)
@@ -131,7 +129,7 @@ function ready() {
 
   likeButton.on("click", () => {
     zog("like clicked");
-    emitter.spurt(10); 
+    emitter.spurt(20); 
   });
 
 
@@ -173,6 +171,7 @@ function ready() {
 //Step4 interaction-------------------------------------
   const numberLabel = new Label("").sca(3).loc(6484, 4100).addTo(container);
   
+  const clothesProportion = new Proportion(40,60,0,1);
   const dataSlider = new Slider({
     min: 0, 
     max: 100, 
@@ -189,34 +188,80 @@ function ready() {
   .addTo(container)
   .ord(4)
   .sca(5)
-  .loc(6084, 4200)
+  .loc(5884, 4500)
   .change(() => {
     const currentValue = dataSlider.currentValue;
     numberLabel.text = dataSlider.currentValue
-  
+
     zog (dataSlider.currentValue)
     if (currentValue === 60) {
-      clothes.alp(1); 
-      cart.alp(0);
+      clothes.alp(clothesProportion.convert(slider.currentValue));
     } else {
-      clothes.alp(0); 
-      cart.alp(1);
+      clothes.alp(0);
     }
   });
   
 
 //Step5 interaction--------------------------------------------
-  const watch = new Pic ("watch.png").loc(3684, 4200).sca(6).addTo(container).drag();
-  const overall = new Pic ("overall.png").loc(3884, 4100).sca(6).addTo(container).drag();
-  const dress = new Pic ("dress.png").loc(4084, 4100).sca(6).addTo(container).drag();
-  const shoes = new Pic ("shoes.png").loc(3584, 4600).sca(6).addTo(container).drag();
+  const rack = new Pic ("rack.png").loc(-4, 3000).sca(1.8).addTo(container);
 
-  const shopping = new Pic ("shopping.png").loc(1084, 4600).sca(6).addTo(container);
+  const watch = new Pic ("watch.png").loc(826, 5036).rot(100).sca(5).addTo(container)
+  const overall = new Pic ("overall.png").loc(827, 3908).sca(11).addTo(container)
+  const dress = new Pic ("dress.png").loc(891, 3862).sca(9).addTo(container)
+  const shoes = new Pic ("shoes.png").loc(973, 4958).sca(6).addTo(container)
+  
+const addButton = new Button({
+      width:200,
+      height:100,
+      backing: new Pic ("AddToCart.png").reg(CENTER),
+      label:""
+    })
+    .loc(3316, 4800)
+    .sca(8)
+    .cur()
+    .addTo(container);
 
+//   addButton.on("click", () => {
+//     watch.animate({props:{x:3684, y:4200, scaleX:6, scaleY:6, rotation: 0}, time:1});
+//     overall.animate({props:{x:3884, y:4100, scaleX:6, scaleY:6}, time:1});
+//     dress.animate({props:{x:4084, y:4100, scaleX:6, scaleY:6}, time:1});
+//     shoes.animate({props:{x:3584, y:4600, scaleX:6, scaleY:6}, time:1});
+// });
+
+let clickCount = 0;
+
+addButton.on("click", () => {
+  clickCount++;
+
+  switch (clickCount) {
+    case 1:
+      watch.animate({props:{x:3684, y:4200, scaleX:6, scaleY:6, rotation: 0}, time:1});
+      break;
+    case 2:
+      overall.animate({props:{x:3884, y:4100, scaleX:6, scaleY:6}, time:1});
+      break;
+    case 3:
+      dress.animate({props:{x:4084, y:4100, scaleX:6, scaleY:6}, time:1});
+      break;
+    case 4:
+      shoes.animate({props:{x:3584, y:4600, scaleX:6, scaleY:6}, time:1});
+      break;
+    default:
+      break;
+  }
+});
 
 //Step6 interaction--------------------------------------------
 
-const landfill = new Rectangle(700, 700).addTo(container).loc(2317, 2427).outline();
+const landfill = new Rectangle(700, 700, clear).addTo(container).loc(2317, 2427).outline();
+
+const fire = new Sprite(new Pic("fire.png"), 4, 1)
+    .loc(2175, 2027)
+    .sca(.5)
+    .addTo(container)
+    // .run({
+    //   time: .5,
+    // })
 
 
 } // end ready
