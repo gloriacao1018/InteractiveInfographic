@@ -25,6 +25,8 @@ function ready() {
     .sca(1.8)
     .addTo(container)
 
+  spool.noMouse();
+
   const waterbottle = new Pic ("waterbottle.png").loc(3772, 61).sca(6).addTo(container).alp(0).cur();
   const cloth = new Pic ("cloth.png").loc(3772, 81).sca(6).addTo(container).alp(0);
 
@@ -105,6 +107,7 @@ function ready() {
 
   slider.bar.alpha = 0;
   slider.button.backing.outline()
+  slider.bar.noMouse();
 
 //Beginning Screen-----------------------------------------
 const start = new Container(W, H).addTo();
