@@ -9,7 +9,11 @@
 
 import zim from "https://zimjs.org/cdn/015/zim";
 
-const assets = ["landfill.png", "earth.png", "page0.png","scissor.png", "blob2.png","arror.png","blob.png","GreatVibes-Regular.ttf","cotton.png","start.png","fire.png","rack.png","likeButton.png","cart.png","label1.png", "label2.png", "label3.png", "sewing.mp3","soundon.png","paper.jpeg","page1.jpeg", "page2.jpeg", "spritesheet1.png","page3.jpeg", "AddToCart.png", "background.png","basket.png","cloth.png","clothes.png","dress.png","ocean.png","overall.png","phone.png","sewing.png","Shirt.png","shoes.png","truck.png","Tshirt.png","watch.png","waterbottle.png"]
+const assets = ["landfill.png", "earth.png", "blob2.png","arror.png","blob.png","GreatVibes-Regular.ttf","cotton.png",
+"start.png","fire.png","rack.png","likeButton.png","cart.png","label1.png", "label2.png", "label3.png", "sewing.mp3",
+"soundon.png","paper.jpeg","spritesheet1.png", "AddToCart.png", "background.png","basket.png","cloth.png", "clothes.png",
+"dress.png","overall.png","phone.png","sewing.png","Shirt.png","shoes.png","truck.png","Tshirt.png",
+"watch.png","waterbottle.png"]
 const path = "assets/";
 new Frame(FIT, 4905, 3470, light, dark, ready, assets, path, new ProgressBar({foreground:"coral", background:"salmon", scale:5}));
 function ready() {
@@ -72,7 +76,6 @@ function ready() {
   .alp(1)
   .loc(1111, 1076)
   .change(() => {
-    zog(slider.currentValue);
     container.scale = 1.5 - (slider.currentValue / 100) * 0.88; 
     spool.gotoAndStop(Math.round(proportion.convert(slider.currentValue)));
     if (slider.currentValue > 60) {
@@ -248,7 +251,7 @@ const start = new Container(W, H).addTo();
     .addTo(container);
 
   let emitter = new Emitter({
-    obj: new Pic("Shirt.png",{min:100, max:400}),
+    obj: new Pic("Shirt.png", "Tshirt.png"),
     startPaused: true
   })
     .addTo(container)
