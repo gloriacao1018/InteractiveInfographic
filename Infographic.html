@@ -62,9 +62,9 @@ function ready() {
   button: new Button({
       width:2545,
       height:2762,
-      backing:new Pic("scissor.png").reg(CENTER),
+      backing:new Pic("cotton.png").reg(CENTER),
       label:""
-    }).sca(.07)
+    }).sca(.04)
   })
   .addTo()
   .sca(4)
@@ -142,6 +142,7 @@ function ready() {
 
   slider.bar.alpha = 0;
   slider.bar.noMouse();
+  slider.button.alpha = 0.7;
 
 //Beginning Screen-----------------------------------------
 const start = new Container(W, H).addTo();
