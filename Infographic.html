@@ -9,7 +9,7 @@
 
 import zim from "https://zimjs.org/cdn/015/zim";
 
-const assets = ["page0.png","scissor.png", "blob2.png","arror.png","blob.png","GreatVibes-Regular.ttf","cotton.png","start.png","fire.png","rack.png","likeButton.png","cart.png","label1.png", "label2.png", "label3.png", "sewing.mp3","soundon.png","paper.jpeg","page1.jpeg", "page2.jpeg", "spritesheet1.png","page3.jpeg", "AddToCart.png", "background.png","basket.png","cloth.png","clothes.png","dress.png","ocean.png","overall.png","phone.png","sewing.png","Shirt.png","shoes.png","truck.png","Tshirt.png","watch.png","waterbottle.png"]
+const assets = ["landfill.png", "earth.png", "page0.png","scissor.png", "blob2.png","arror.png","blob.png","GreatVibes-Regular.ttf","cotton.png","start.png","fire.png","rack.png","likeButton.png","cart.png","label1.png", "label2.png", "label3.png", "sewing.mp3","soundon.png","paper.jpeg","page1.jpeg", "page2.jpeg", "spritesheet1.png","page3.jpeg", "AddToCart.png", "background.png","basket.png","cloth.png","clothes.png","dress.png","ocean.png","overall.png","phone.png","sewing.png","Shirt.png","shoes.png","truck.png","Tshirt.png","watch.png","waterbottle.png"]
 const path = "assets/";
 new Frame(FIT, 4905, 3470, light, dark, ready, assets, path, new ProgressBar({foreground:"coral", background:"salmon", scale:5}));
 function ready() {
@@ -19,7 +19,7 @@ function ready() {
   const container = new Container(W, H).addTo();
   const infographic = new Pic("background.png").addTo(container).center().sca(1.5).alp(0);
 
-  const spool = new Sprite(new Pic("spritesheet1.png"),3, 5, 13)
+  const spool = new Sprite(new Pic("spritesheet1.png"),3, 5, 14)
     .loc(232, -57)
     .rot(10)
     .sca(2)
@@ -30,14 +30,14 @@ function ready() {
   spool.noMouse();
   background.noMouse();
 
-  const waterbottle = new Pic ("waterbottle.png").loc(3772, 61).sca(6).addTo(container).alp(0).cur().hov().top();
+  const waterbottle = new Pic ("waterbottle.png").loc(4296, 545).sca(6).addTo(container).alp(0).reg(CENTER).cur();
   const cloth = new Pic ("cloth.png").loc(3772, 81).sca(6).addTo(container).alp(0);
 
   const phone = new Pic ("phone.png").loc(6584, 160).sca(5).addTo(container);
   
-  const label1 = new Pic ("label1.png").loc(5300, 3065).sca(1).addTo(container).drag().alp(0).hov().top();
-  const label2 = new Pic ("label2.png").loc(5300, 3065).sca(1).addTo(container).drag().alp(0).hov().top();
-  const label3 = new Pic ("label3.png").loc(5300, 3065).sca(1).addTo(container).drag().alp(0).hov().top();
+  const label1 = new Pic ("label1.png").loc(5300, 3085).sca(1).addTo(container).drag().alp(0);
+  const label2 = new Pic ("label2.png").loc(5300, 3085).sca(1).addTo(container).drag().alp(0);
+  const label3 = new Pic ("label3.png").loc(5300, 3085).sca(1).addTo(container).drag().alp(0);
   const sewing = new Pic ("sewing.png").loc(6484, 2290).sca(4.4).addTo(container);
 
   const cart = new Pic ("cart.png").loc(6684, 4000).sca(5).addTo(container);
@@ -46,10 +46,10 @@ function ready() {
   const basket = new Pic ("basket.png").loc(3384, 4200).sca(6).addTo(container);
   const blob2 = new Pic ("blob2.png").loc(2751, 2207).sca(.9).addTo().alp(0);
 
-  const truck = new Pic ("truck.png").loc(1775, 2427).sca(6).addTo(container).alp(0);
+  const landfill = new Pic ("landfill.png").loc(1509, 2102).sca(.5).addTo(container).alp(0);
   const blob = new Pic ("blob.png").loc(-71, 1000).alp(0).ord(10).sca(1).addTo();
 
-  const ocean = new Pic ("ocean.png").loc(1804, 1149).sca(3).addTo().alp(0);
+  const earth = new Pic ("earth.png").loc(2425, 1539).reg(CENTER).sca(1.1).addTo().alp(0);
 
   //Spool pulling------------------------------
   const proportion = new Proportion(50,100,0,12)
@@ -64,7 +64,7 @@ function ready() {
       height:2762,
       backing:new Pic("cotton.png").reg(CENTER),
       label:""
-    }).sca(.04)
+    }).sca(.03)
   })
   .addTo()
   .sca(4)
@@ -72,9 +72,10 @@ function ready() {
   .alp(1)
   .loc(1111, 1076)
   .change(() => {
+    zog(slider.currentValue);
     container.scale = 1.5 - (slider.currentValue / 100) * 0.88; 
     spool.gotoAndStop(Math.round(proportion.convert(slider.currentValue)));
-    if (slider.currentValue > 50) {
+    if (slider.currentValue > 60) {
       infographic.animate({
         props:{alpha:1},
         time:1,
@@ -87,56 +88,78 @@ function ready() {
       waterbottle.animate({
           props:{alpha:1},
           time:1,
-          ease:"bounce"
       });
-      truck.animate({
-        props:{alpha:1},
-        time:1,
-        delay:1,
-        ease:"fade in"
-      });
-      
+      waterbottle.animate({
+      props:{scale:{min:6, max:6.5}},
+      time: 1,
+      loop:true,
+      ease:"bounce"
+    }) 
       label1.animate({
         props:{alpha:1},
         time:1,
-        delay:1,
         ease:"fade in"
       });
+      label3.animate({
+        props: {x: 5300, y: 3065},
+        time: 1,
+        loop:true,
+        ease:"bounce"
+      })
       label2.animate({
         props:{alpha:1},
         time:1,
-        delay:1,
         ease:"fade in"
       });
       label3.animate({
         props:{alpha:1},
         time:1,
-        delay:1,
         ease:"fade in"
       });
     } else {
-      truck.alp(0);
       waterbottle.alp(0);
+      cloth.alp(0);
     }
-     if (slider.currentValue === slider.max) {
-      ocean.animate({
+     if (slider.currentValue > 90) {
+      landfill.animate({
         props:{alpha:1},
         time:1,
-        ease:"fade in "
-      })
+        ease:"fade in"
+      });
       blob.animate({
         props:{alpha:1},
-        time:.8,
+        time:1,
         ease:"fade in"
       });
+  
+    
+    } else {
+      landfill.alp(0);
+      blob.alp(0);
+    }
+
+    if (slider.currentValue === 100) {
       blob2.animate({
         props:{alpha:1},
-        time:.8,
+        time:1,
         ease:"fade in"
       });
+
+      earth.animate({
+        props:{alpha:1},
+        time:1,
+        wait:1,
+        ease:"fade in "
+      });
+      earth.animate({
+        props: {rotation: 360},
+        time: 35,
+        loop: true
+      });
     } else {
-      ocean.alp(0); 
-      blob.alp(0);
+      earth.alp(0);
+      blob2.alp(0);
+
     }
   });
 
@@ -153,13 +176,14 @@ const start = new Container(W, H).addTo();
       font: "GreatVibes-Regular.ttf",
       size: 50,
       align: "center",
-      rollColor: "#459b3e" ,
+      rollColor: "#B7905F" ,
       bold: true
     })
     .addTo(start)
     .center()
     .loc(3887, 2318)
-    .sca(4);
+    .sca(4)
+    .cur();
 
     const click2 = new Label({
      text: "drag and pull the thread",
@@ -203,49 +227,19 @@ const start = new Container(W, H).addTo();
 
     });
   });
-
-  // let closeBook;
-
-  // const page1 = new Page({color: "#EFE2CF"});
-  // page1.content = new Pic("page0.png").addTo(page1).pos(-10,0,CENTER,LEFT,page1);
-
-  // const page2 = new Page({color: "#EFE2CF"});
-  // page2.content = new Pic("page1.jpeg").addTo(page2).pos(340,0,CENTER,RIGHT, page1);
-
-  // const page3 = new Page({color: "#EFE2CF"});
-  // page3.content = new Pic("page2.jpeg").addTo(page3).pos(-10,0,CENTER,LEFT,page3);
-
-  // const page4 = new Page({color: "#EFE2CF"});
-  // page4.content = new Pic("page3.jpeg").addTo(page4).pos(340,0,CENTER,RIGHT, page3);
-
-  // const pages = [page1, page2, page3, page4];
-
-  // const book = new Book(700, 500, pages).addTo(container)
-
-  // const bookCont = new Container(400,400).loc(2603, 698).addTo(container);
-  // const icon = new Pic("cotton.png").addTo(bookCont).scaleTo(bookCont).hov(1)   
-  //   .tap(()=>{
-  //       book.center().addTo(S);
-  //       closeBook = new Button(40,38,"x",red).pos(170,145, RIGHT, TOP);
-  //       closeBook.tap(()=>{
-  //           if (S.contains(book)) {
-  //               book.removeFrom(S);
-  //               closeBook.removeFrom()
-  //           }
-  //       });
-  //   });
           
 //Step2 interaction-------------------------------------
   let likeButton = new Button({
     label: "",
     backing: new Pic("likeButton.png")
   })
-    .loc(7455, 824)
-    .sca(.2)
+    .loc(7415, 804)
+    .sca(.3)
     .ord(1)
+    .reg(CENTER)
     .animate({
-      props:{alpha:{min:.1, max:1}, scale:{min:.2, max:.5}},
-      time: .7,
+      props:{scale:{min:.1, max:.5}},
+      time: 1,
       loop:true,
       ease:"bounce"
     })
@@ -259,7 +253,7 @@ const start = new Container(W, H).addTo();
   })
     .addTo(container)
     .loc(likeButton)
-    .sca(9)
+    .sca(300)
     .ord(2);
 
   likeButton.on("click", () => {
@@ -307,14 +301,14 @@ const start = new Container(W, H).addTo();
 //Step4 interaction-------------------------------------
   const numberLabel = new Label("").sca(3).loc(5899, 4367).addTo(container);
   
-  const clothesProportion = new Proportion(40,60,0,1);
+  // const clothesProportion = new Proportion(40,60,0,1);
   const dataSlider = new Slider({
     min: 0, 
     max: 100, 
     step: 1,
     barColor: "#4C94A7",
     barLength: 260,
-    barWidth: 12,
+    barWidth: 10,
     button: new Button({
       width:65,
       height:61,
@@ -322,7 +316,7 @@ const start = new Container(W, H).addTo();
       label:""
     })
   })
-  .addTo()
+  .addTo(container)
   .ord(4)
   .sca(5)
   .loc(5077, 5282)
@@ -330,23 +324,31 @@ const start = new Container(W, H).addTo();
     const currentValue = dataSlider.currentValue;
     numberLabel.text = dataSlider.currentValue
     if (currentValue === 60) {
-      clothes.alp(clothesProportion.convert(slider.currentValue));
+      clothes.alp(1); 
+      cart.alp(0);
     } else {
-      clothes.alp(0);
+      clothes.alp(0); 
+      cart.alp(1); 
     }
   });
 
-  dataSlider.bar.alpha = 0.6;
-  dataSlider.bar.borderRadius = 10;
-  
+  dataSlider.bar.alpha = 0.5;
+
+  dataSlider.animate({
+    props:{scale:{min:5, max:5.2}},
+    time:1,
+    ease:"linear",
+    loop:true
+  });
 
 //Step5 interaction--------------------------------------------
   const rack = new Pic ("rack.png").loc(-34, 3000).sca(1.8).addTo(container);
+  const arror = new Pic ("arror.png").loc(3272, 3419).sca(1).addTo(container).alp(0);
 
-  const watch = new Pic ("watch.png").loc(796, 5036).rot(100).sca(5).addTo(container).hov().top();
-  const overall = new Pic ("overall.png").loc(797, 3908).sca(11).addTo(container).hov().top();
-  const dress = new Pic ("dress.png").loc(861, 3862).sca(9).addTo(container).hov().top();
-  const shoes = new Pic ("shoes.png").loc(943, 4958).sca(6).addTo(container).hov().top();
+  const watch = new Pic ("watch.png").loc(796, 5036).rot(100).sca(5).addTo(container);
+  const overall = new Pic ("overall.png").loc(797, 3908).sca(11).addTo(container);
+  const dress = new Pic ("dress.png").loc(861, 3862).sca(9).addTo(container);
+  const shoes = new Pic ("shoes.png").loc(943, 4958).sca(6).addTo(container);
   
   let items = [watch, overall, dress, shoes];
   const addButton = new Button({
@@ -355,12 +357,17 @@ const start = new Container(W, H).addTo();
       backing: new Pic ("AddToCart.png").reg(CENTER),
       label:""
     })
-    .loc(3507, 4895)
+    .loc(4079, 5210)
     .sca(6)
     .cur()
-    .hov()
-    .top()
-    .addTo(container);
+    .reg(CENTER)
+    .addTo(container)
+    .animate({
+      props:{scale:{min:5.6, max:6}},
+      time: 1,
+      loop:true,
+      ease:"bounce"
+    });
 
   let clickCount = 0;
 
@@ -399,14 +406,26 @@ const start = new Container(W, H).addTo();
     default:
       break;
   }
+  arror.animate({
+    props:{alpha:1},
+    time:1,
+    ease:"fade",
+    wait:1
+  });
+  arror.animate({
+    props:{x:3212, y: 3300},
+    time:1,
+    loop:true,
+    ease:"linear"
+  });
 });
 
 //Step6 interaction--------------------------------------------
 
-  const landfill = new Rectangle(700, 700, clear).addTo(container).loc(2317, 2427);
+  const landfillHit = new Rectangle(800, 800, clear).addTo().reg(CENTER).loc(1610, 1915);
 
   const fire = new Sprite(new Pic("fire.png"), 4, 1)
-      .loc(2175, 2027)
+      .loc(2179, 2600)
       .sca(.5)
       .alp(0)
       .addTo(container)
@@ -419,7 +438,9 @@ const start = new Container(W, H).addTo();
           props:{alpha:1},
           time:.1,
         });
-        fire.run();
+        fire.run({
+          loop:true
+        });
         item.dispose();
       }
     });
